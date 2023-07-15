@@ -49,8 +49,23 @@ export class App extends Component {
   checkDuplicateContact = name => {
     const { contacts } = this.state;
     const existingContact = contacts.find(
-      contact => contact.name.toLowerCase() === name.toLowerCase());
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
     return !!existingContact;
+  };
+
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
   };
 
   render() {
@@ -58,7 +73,7 @@ export class App extends Component {
     const visibleContacts = this.getVisibleContacts();
 
     return (
-      <div className='container'>
+      <div className="container">
         <h1>Phonebook</h1>
         <ContactForm onSubmit={this.handleAddContact} />
         <h2>Contacts</h2>
