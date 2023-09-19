@@ -20,7 +20,7 @@ export class App extends Component {
     const isDuplicate = this.checkDuplicateContact(name);
 
     if (isDuplicate) {
-      alert(`${name} is already in contacts.`);
+      return alert(`${name} is already in contacts.`);
     }
     const newContact = { id: nanoid(), name, number };
     this.setState(({ contacts }) => ({ contacts: [...contacts, newContact] }));
